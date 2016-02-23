@@ -1,0 +1,38 @@
+<div class="container">
+	<h1>Pass Log</h1>
+	<div class="form-group">
+		<label>Search:
+			<input type="text" class="form-control" ng-model="filter_name" placeholder="name">
+		</label>
+	</div>
+	<table class="table table-striped table-hover">
+		<thead>
+			<th>Name</th>
+			<th>Destination</th>
+			<th>Status</th>
+			<th>Departure</th>
+			<th>Arrival</th>
+			<th>Created</th>
+			<th></th>
+			<th></th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="pass in passes | filter: filter_name | orderBy: 'created_at' ">
+				<td>{{pass.name }}</td>
+				<td>{{pass.destination }}</td>
+				<td>{{pass.status }}</td>
+				<td>{{pass.departure | date : 'EEE, MMM d, h:mm a' }}</td>
+				<td>{{pass.arrival | date : 'EEE, MMM d, h:mm a' }}</td>
+				<td>{{pass.created_at | date : 'EEE, MMM d, h:mm a' }}</td>
+				<td>
+					<button type="button" class="btn btn-primary" ng-click="updatePass(pass._id, 1)" ng-if="pass.status === 'pending'">Depart</button>
+					<button type="button" class="btn btn-success" ng-click="updatePass(pass._id, 2)" ng-if="pass.status === 'departed'">Arrived</button>
+				</td>
+				<td>
+					<button type="button" class="btn btn-danger" ng-click="updatePass(pass._id, 3)" ng-if="pass.status != 'cancelled'">Cancel</button>
+					<button type="button" class="btn btn-info" ng-click="updatePass(pass._id, 4)" ng-if="pass.status === 'cancelled'">Reactivate</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

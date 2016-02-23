@@ -1,0 +1,107 @@
+<div id="create_pass" class="container">
+<!-- Create Pass -->
+	<h2>New Hall Pass</h2>
+	<div class="form-group">
+		<form>
+			<label> Name <input type="text" class="form-control" ng-model="new_pass.name"></label>
+			<label> Destination <input type="text" class="form-control" ng-model="new_pass.destination"></label>
+			<input type="submit" class="btn btn-default" ng-click="addPass()">
+		</form>
+	</div>
+</div>
+<div class="dashboard container">
+	<div class="col-md-6">
+<!-- Active Passes -->
+		<h3>Who's out of the room?</h3>
+		<table class="table table-hover">
+			<thead>
+				<th>Name</th>
+				<th>Destination</th>
+				<th>Departure</th>
+				<th></th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="pass in passes | orderBy: 'departure' " ng-if="pass.status === 'departed'">
+					<td>{{pass.name }}</td>
+					<td>{{pass.destination }}</td>
+					<td>{{pass.departure | date : 'EEE, MMM d, h:mm a' }}</td>
+					<td>
+						<button type="button" class="btn btn-success" ng-click="updatePass(pass._id, 2)">Arrived</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger" ng-click="updatePass(pass._id, 3)">Cancel</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<!-- Pending Passes -->
+		<h3>Who's next in line?</h3>
+		<table class="table table-hover">
+			<thead>
+				<th>Name</th>
+				<th>Destination</th>
+				<th>Created</th>
+				<th></th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="pass in passes | orderBy: 'created_at' " ng-if="pass.status === 'pending'">
+					<td>{{pass.name }}</td>
+					<td>{{pass.destination }}</td>
+					<td>{{pass.created_at | date : 'EEE, MMM d, h:mm a' }}</td>
+					<td>
+						<button type="button" class="btn btn-primary" ng-click="updatePass(pass._id, 1)">Depart</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger" ng-click="updatePass(pass._id, 3)">Cancel</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-md-6">
+<!-- Arrived Passes -->
+		<h3>Did you return on time?</h3>
+		<table class="table table-hover">
+			<thead>
+				<th>Name</th>
+				<th>Destination</th>
+				<th>Departure</th>
+				<th>Arrival</th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="pass in passes | orderBy: 'arrival' " ng-if="pass.status === 'arrived'">
+					<td>{{pass.name }}</td>
+					<td>{{pass.destination }}</td>
+					<td>{{pass.departure | date : 'EEE, MMM d, h:mm a' }}</td>
+					<td>{{pass.arrival | date : 'EEE, MMM d, h:mm a' }}</td>
+					<td>
+						<button type="button" class="btn btn-danger" ng-click="updatePass(pass._id, 3)">Cancel</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<!-- Cancelled Passes -->
+		<h3>These passes were cancelled:</h3>
+		<table class="table table-hover">
+			<thead>
+				<th>Name</th>
+				<th>Destination</th>
+				<th>Created</th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="pass in passes | orderBy: 'created_at' " ng-if="pass.status === 'cancelled'">
+					<td>{{pass.name }}</td>
+					<td>{{pass.destination }}</td>
+					<td>{{pass.created_at | date : 'EEE, MMM d, h:mm a' }}</td>
+					<td>
+						<button type="button" class="btn btn-info" ng-click="updatePass(pass._id, 4)">Reactivate</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
