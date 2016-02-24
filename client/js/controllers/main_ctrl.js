@@ -1,33 +1,23 @@
-app.controller('MainController', function(UserFactory, PassFactory, $scope){
+app.controller('MainController', ['$scope', '$http', 'auth', 'store', '$location', function(UserFactory, PassFactory, $scope, $http, auth, store, $location){
 	console.log("MainController Loaded");
 
-	// $scope.loggedUser = false;
+	$scope.auth = auth;
 
-	// 	while($scope.loggedUser === false) {
-	// 		$scope.loggedUser = prompt("What is your name?");
-	// 		console.log($scope.loggedUser);
-	// 	}
-
-
-	// UserFactory.loginUser(function(user) {
-	// 	$scope.loggedUser = user;
-	// 	console.log($scope.loggedUser);
-	// });
-
-	$scope.loginUser = function() {
-		UserFactory.loginUser(function(user) {
-			$scope.loggedUser = user;
-			console.log("C | CTRL | loginUser", $scope.loggedUser);
-		});
-	}
-
-	$scope.logoutUser = function() {
-		console.log("C | CTRL | logoutUser", $scope.loggedUser);
-		UserFactory.logoutUser(function(user) {
-			$scope.loggedUser = user;
-			console.log("LoggedUser: ", $scope.loggedUser);
-		});
-	}
+	$scope.login = function () {
+        auth.signin({}, function (profile, token) {
+            // Success callback
+            store.set('profile', profile);
+            store.set('token', token);
+            $location.path('/');
+        }, function () {
+            // Error callback
+        });
+    }
+    $scope.logout = function() {
+        auth.signout();
+        store.remove('profile');
+        store.remove('token');
+    }
 
 	$scope.addPass = function() {
 		console.log("C | CTRL | addPass", $scope.new_pass);
@@ -54,4 +44,4 @@ app.controller('MainController', function(UserFactory, PassFactory, $scope){
 	});
 
 
-});
+}]);

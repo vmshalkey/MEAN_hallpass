@@ -5,32 +5,56 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Hall Pass</title>
 
-	<!-- angular -->
+<!-- angular -->
 	<script type="text/javascript" src="/js/lib/angular-1.4.6/angular.js"></script>
+	<script type="text/javascript" src="/js/lib/angular-1.4.6/angular-animate.min.js"></script>
 	<script type="text/javascript" src="/js/lib/angular-1.4.6/angular-route.js"></script>
 
-	<!-- angular app -->
+<!-- angular app -->
 	<script src="js/app.js"></script>
 
-	<!-- bootstrap -->
+<!-- bootstrap -->
 	<script type="text/javascript" src="/js/lib/ui-bootstrap-tpls-1.1.2.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-	<!-- custom css stylesheet -->
+<!-- custom css stylesheet -->
 	<link rel="stylesheet" href="/assets/css/stylesheet.css">
 
-	<!-- factories and controllers -->
-	<script src="js/factories/user_factory.js"></script>
-
+<!-- factories and controllers -->
 	<script src="js/factories/pass_factory.js"></script>
 	<script src="js/controllers/passes_ctrl.js"></script>
 
+	<script src="js/factories/user_factory.js"></script>
+	<script src="js/controllers/users_ctrl.js"></script>
+
 	<script src="js/controllers/main_ctrl.js"></script>
 
+<!-- Auth0 uses client cookies to save the user credentials -->
+	<script src="//code.angularjs.org/1.2.16/angular-cookies.min.js"></script>
+
+<!-- Auth0 Lock script and AngularJS module -->
+	<script src="//cdn.auth0.com/js/lock-8.2.min.js"></script>
+
+<!-- angular-jwt and angular-storage -->
+	<script type="text/javascript" src="//cdn.rawgit.com/auth0/angular-storage/master/dist/angular-storage.js"></script>
+	<script type="text/javascript" src="//cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
+
+	<script src="//cdn.auth0.com/w2/auth0-angular-4.js"> </script>
+
+<!-- Setting the right viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 </head>
-<body>
+<body ng-controller="MainController as main">
 	<div class="container">
 		<h1>Hall Pass</h1>
+
+		<span>Hello {{auth.profile.nickname}}</span>
+
+		<a href="#/login" ng-click="login()">Login / Sign Up</a>
+
+		<a href="#/logout" ng-click="logout()">Logout</a>
+
 		<nav>
 			<a href="#/home">Home</a> |
 			<a href="#/log">Pass Log</a>
